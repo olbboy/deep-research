@@ -1,0 +1,6 @@
+# AgentKit
+.agentkit/
+.agents/
+.grok/
+.claude/
+engineer/
