@@ -18,11 +18,15 @@ Query mỗi synonym của chủ đề:
 
 Ưu tiên Codex / Grok / Cursor / Perplexity khi có. Hết quota → `search_web`.
 
+Collector kèm skill: `collect.py serper "<query>" --gl us --hl en` **và** `collect.py brave "<query>"` cho cùng query — hai index khác nhau, lệch nhau là tín hiệu cần Pass 5. Báo cáo/CAGR: thêm `serper --type scholar`.
+
 ## Pass 2 — Ngôn ngữ địa phương
 
 Với **mỗi** thị trường trong scope, search bằng ngôn ngữ / thuật ngữ địa phương.
 
 Việt Nam: **bắt buộc** query tiếng Việt. Tiếng Anh về Việt Nam không thay được.
+
+Collector: `collect.py serper "<query tiếng Việt>" --gl vn --hl vi` và `collect.py brave "<query tiếng Việt>" --search-lang vi` (Brave không có `--country VN`, giữ `ALL`).
 
 ## Pass 3 — Mở synonym / phân loại khác
 
@@ -40,6 +44,8 @@ Không cứng hóa danh sách cụm — phát hiện theo topic.
 Deep search cho KIQ còn trống và số liệu mâu thuẫn.
 Thiếu tool sâu → thêm `search_web` có năm, phạm vi, đơn vị.
 
+Collector: `serper --type news --tbs qdr:y` / `brave --type news --freshness pm` cho tin mới; `jina-search "<KIQ>"` khi cần nội dung trang ngay; `jina-read <url>` để mở **trang gốc** của mọi số liệu mâu thuẫn trước khi sang vòng kiểm.
+
 ## Pass 6 — Nền tảng (khuyến nghị)
 
 Khi kiến trúc / sentiment / hiring quan trọng:
@@ -47,7 +53,7 @@ Khi kiến trúc / sentiment / hiring quan trọng:
 - GitHub, YouTube, RSS, đọc trang gốc
 - X / LinkedIn nếu backend sẵn
 
-Có `mr`: `mr collect agent-reach` / `mr collect grok-search --mode x`. Không `mr`: web tool + URL gốc.
+Có `mr`: `mr collect agent-reach` / `mr collect grok-search --mode x`. Không `mr`: web tool + URL gốc, hoặc `jina-read` cho GitHub README / blog / trang hãng (`--with-links` để lấy link con).
 
 ## Rút claim
 
@@ -103,6 +109,7 @@ mr verify-sources "<url1>" "<url2>" ... --json
 
 Hai AI-search chung một origin = 1 nguồn. `[CONFIRMED]` cần ≥1 nguồn non-AI **hoặc** ≥2 origin sơ cấp khác nhau.
 Không `mr`: nhóm bằng registrable domain; bỏ `codex://`, `grok://`.
+`serper` / `brave` / `jina-search` là **index**, không phải nguồn: origin = `origin` của từng kết quả. Cùng một URL hiện ở cả Serper lẫn Brave vẫn là **1** origin. Xác nhận origin sơ cấp bằng `jina-read`.
 
 ### 4 — Truth
 

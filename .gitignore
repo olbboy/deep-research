@@ -4,3 +4,8 @@
 .grok/
 .claude/
 engineer/
+
+# Secrets & Python cache
+.env
+__pycache__/
+*.pyc

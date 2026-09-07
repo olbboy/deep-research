@@ -26,7 +26,8 @@ Nếu `kiem-chung-thong-tin` chạy: giữ nguyên khối tiếng Việt trong l
 | `source_type` | Ví dụ |
 |---------------|--------|
 | AI-search | `codex`, `gemini-deep-research`, `glm-search`, Grok/Cursor search |
-| non-AI | World Bank, FRED, SEC, filing, trang hãng, primary |
+| non-AI | World Bank, FRED, SEC, filing, trang hãng, primary; trang gốc đọc qua `jina-read` |
+| index (không tính là nguồn) | `serper`, `brave`, `jina-search` — chỉ dẫn tới URL; origin = domain của URL kết quả |
 
 `[CONFIRMED]` chỉ khi ≥1 non-AI **hoặc** ≥2 AI-search khác **primary origin**.
 Hai AI-search chung origin = 1 nguồn → trần `[ASSESSED]`.
