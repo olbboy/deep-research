@@ -32,12 +32,16 @@ Collector: `collect.py serper "<query tiếng Việt>" --gl vn --hl vi` và `col
 
 Cùng hiện tượng, tên ngành khác. Ví dụ: "AI camera" bỏ sót video analytics software.
 
+Collector: `collect.py searxng "<synonym>" --language vi` — một lệnh gom nhiều engine, `suggestions[]` trong output gợi synonym mới; `--categories science` cho học thuật.
+
 ## Pass 4 — Cạnh / cụm
 
 Tìm thực thể được nhắc trong báo chí, "alternatives to", bảng key players.
 Nếu phát hiện cụm có tên ("Big N", nhóm địa phương): lấy **đủ** thành viên. Thiếu → thêm ngay.
 
 Không cứng hóa danh sách cụm — phát hiện theo topic.
+
+Collector: `searxng "<topic> alternatives"` và `searxng "<topic> key players" --categories news --time-range year` để gom thành viên cụm từ nhiều engine cùng lúc.
 
 ## Pass 5 — Thẩm sâu + bịt hổng
 
@@ -109,7 +113,7 @@ mr verify-sources "<url1>" "<url2>" ... --json
 
 Hai AI-search chung một origin = 1 nguồn. `[CONFIRMED]` cần ≥1 nguồn non-AI **hoặc** ≥2 origin sơ cấp khác nhau.
 Không `mr`: nhóm bằng registrable domain; bỏ `codex://`, `grok://`.
-`serper` / `brave` / `jina-search` là **index**, không phải nguồn: origin = `origin` của từng kết quả. Cùng một URL hiện ở cả Serper lẫn Brave vẫn là **1** origin. Xác nhận origin sơ cấp bằng `jina-read`.
+`serper` / `brave` / `jina-search` / `searxng` là **index**, không phải nguồn: origin = `origin` của từng kết quả. Cùng một URL hiện ở cả Serper lẫn Brave vẫn là **1** origin. Xác nhận origin sơ cấp bằng `jina-read`.
 
 ### 4 — Truth
 
