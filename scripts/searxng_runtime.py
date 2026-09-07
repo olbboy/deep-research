@@ -190,12 +190,23 @@ def choose_mode() -> str:
     return "docker" if docker_available() else "source"
 
 
+def is_installed(mode: str) -> bool:
+    """True when a previous run already created the container / source checkout."""
+    if mode == "docker":
+        return docker_container_state() is not None
+    return (VENV_DIR / "bin" / "python").exists() and (SRC_DIR / "searx").exists()
+
+
 def ensure_running() -> str:
     """Return the mode that serves BASE_URL, bootstrapping on first use."""
     if is_healthy():
         return "docker" if docker_container_state() == "running" else "source" if source_pid() else "external"
     mode = choose_mode()
-    print(f'{{"info": "starting SearXNG ({mode}) on {BASE_URL}; first run installs it"}}', file=sys.stderr)
+    if is_installed(mode):
+        action = "starting existing container" if mode == "docker" else "starting installed checkout"
+    else:
+        action = "first run: pulling image and creating container" if mode == "docker" else "first run: cloning and installing"
+    print(f'{{"info": "SearXNG ({mode}) on {BASE_URL}: {action}"}}', file=sys.stderr)
     if mode == "docker":
         if not docker_available():
             raise RuntimeError("SEARXNG_RUNTIME=docker but Docker is not available")
