@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deep-research collectors: Serper (Google SERP), Brave Search, Jina (search + reader).
+"""Deep-research collectors: Serper (Google SERP), Brave Search, Jina (search + reader), SearXNG (local metasearch).
 
 Every sub-command prints ONE normalized JSON document to stdout so the research
 loop can treat all providers the same way:
@@ -239,6 +239,46 @@ def run_jina_read(args: argparse.Namespace) -> dict:
     return doc
 
 
+def run_searxng(args: argparse.Namespace) -> dict:
+    """Local SearXNG metasearch; bootstraps the instance on first use (no API key)."""
+    import searxng_runtime as sx  # sibling module, imported lazily to keep other providers light
+
+    if args.stop:
+        return {"provider": "searxng", "kind": "stop", "stopped": sx.stop()}
+    if args.status:
+        return {"provider": "searxng", "kind": "status", **sx.status()}
+    if not args.query:
+        fail("searxng needs a query (or --status / --stop)", code=2)
+    try:
+        mode = sx.ensure_running()
+    except (RuntimeError, OSError) as exc:
+        fail(f"searxng bootstrap failed: {exc}", code=3)
+    params = {"q": args.query, "format": "json", "pageno": args.pageno, "safesearch": args.safesearch}
+    if args.categories:
+        params["categories"] = args.categories
+    if args.engines:
+        params["engines"] = args.engines
+    if args.language:
+        params["language"] = args.language
+    if args.time_range:
+        params["time_range"] = args.time_range
+    data = http_json(f"{sx.BASE_URL}/search?" + urllib.parse.urlencode(params), headers={"Accept": "application/json"}, timeout=args.timeout)
+    results = [
+        result(i, it.get("title"), it.get("url"), it.get("content"), it.get("publishedDate"),
+               engines=it.get("engines") or [it.get("engine")], score=it.get("score"))
+        for i, it in enumerate(data.get("results") or [], 1)
+    ]
+    meta = {
+        "runtime": mode,
+        "language": args.language,
+        "categories": args.categories,
+        "answers": data.get("answers") or [],
+        "suggestions": data.get("suggestions") or [],
+        "unresponsive_engines": data.get("unresponsive_engines") or [],
+    }
+    return envelope("searxng", "search", args.query, results, data if args.raw else None, **meta)
+
+
 # ------------------------------------------------------------------------ cli
 
 
@@ -286,6 +326,19 @@ def build_parser() -> argparse.ArgumentParser:
     jr.add_argument("--max-chars", type=int, default=20000)
     common(jr)
     jr.set_defaults(func=run_jina_read)
+    sx = sub.add_parser("searxng", help="local SearXNG metasearch (auto-installs on first use; no API key)")
+    sx.add_argument("query", nargs="?")
+    sx.add_argument("--categories", help="general | news | science | it | ... (comma-separated)")
+    sx.add_argument("--engines", help="comma-separated engine names, e.g. google,bing,duckduckgo")
+    sx.add_argument("--language", help="e.g. vi, en, vi-VN")
+    sx.add_argument("--time-range", choices=["day", "month", "year"])
+    sx.add_argument("--pageno", type=int, default=1)
+    sx.add_argument("--safesearch", type=int, choices=[0, 1, 2], default=0)
+    sx.set_defaults(timeout=60)
+    sx.add_argument("--status", action="store_true", help="report runtime state and exit")
+    sx.add_argument("--stop", action="store_true", help="stop the local instance this skill started")
+    common(sx)
+    sx.set_defaults(func=run_searxng)
     return p
 
 

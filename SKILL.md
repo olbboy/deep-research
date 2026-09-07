@@ -80,7 +80,7 @@ Khi `mr` có mặt, chỉ dùng lệnh đã có: `mr collect …`, `mr verify do
 
 ### Collector đi kèm skill (`scripts/collect.py`)
 
-Bốn collector chạy độc lập với `mr`, in **một** JSON chuẩn hóa ra stdout (`provider`, `kind`, `query`, `fetched_at`, `results[]` với `title · url · snippet · date · origin · source_type`). Chạy bằng venv skill:
+Năm collector chạy độc lập với `mr`, in **một** JSON chuẩn hóa ra stdout (`provider`, `kind`, `query`, `fetched_at`, `results[]` với `title · url · snippet · date · origin · source_type`). Chạy bằng venv skill:
 
 ```bash
 PY=~/.claude/skills/.venv/bin/python3; C=<skill_root>/scripts/collect.py
@@ -88,6 +88,8 @@ $PY $C serper "<query>" --gl vn --hl vi --num 10 [--type search|news|scholar] [-
 $PY $C brave  "<query>" --search-lang vi --count 10 [--type web|news] [--freshness pm]
 $PY $C jina-search "<query>" [--site <domain>] [--no-content] [--max-chars 4000]
 $PY $C jina-read "<url>" [--with-links] [--max-chars 20000]
+$PY $C searxng "<query>" [--language vi] [--categories general|news|science] [--engines google,bing] [--time-range year]
+$PY $C searxng --status | --stop
 ```
 
 | Collector | Dùng cho | Lưu ý |
@@ -96,6 +98,7 @@ $PY $C jina-read "<url>" [--with-links] [--max-chars 20000]
 | `brave` | Index độc lập với Google → tam giác Pass 1–3; `--type news --freshness` cho Pass 5 | `--country` **không** có `VN`; giữ mặc định `ALL` + `--search-lang vi`. Gói free 1 req/giây, script tự retry 429 một lần |
 | `jina-search` | Search trả kèm nội dung trang → rút claim nhanh | Tốn token; `--no-content` khi chỉ cần URL |
 | `jina-read` | Đọc **trang gốc** (primary origin) thành markdown sạch cho vòng 3–4 | Luôn đọc origin trước khi gắn `[CONFIRMED]` |
+| `searxng` | Metasearch **tự host** (Google + Bing + DuckDuckGo + Brave + Wikipedia… trong một lệnh) → Pass 3–4 mở synonym / cụm, không tốn quota API | Không cần key. Lần đầu chạy tự cài: có Docker → container `deep-research-searxng` cổng 8888; không Docker → clone + venv Python ≥ 3.11 tại `~/.local/share/deep-research/searxng`. Lần đầu chờ tải image / cài venv (~20 giây đến vài phút). Ép chế độ bằng `SEARXNG_RUNTIME=docker|source`. Engine (DuckDuckGo, Startpage, Wikipedia) có thể trả CAPTCHA khi query dồn dập — giãn cách, đổi `--engines`, hoặc bù bằng `serper`/`brave`. Xong việc: `searxng --stop` |
 
 Mọi flag khác `--help` của script đều không tồn tại — đọc `collect.py <sub> --help` trước khi gọi. Lỗi trả JSON `{"error": …}` trên stderr, exit code 2 (thiếu key) / 3 (HTTP, mạng).
 
