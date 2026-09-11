@@ -318,7 +318,7 @@ Ngược lại, thực hành tốt mà Product School nêu: PRD là tài liệu 
 
 ### 3.6 Khung PRD tổng hợp cuối
 
-Sau khi đối chiếu năm template với tài liệu gốc của Cagan và với một khung "PRD world-class" thiên kỹ thuật, khung tổng hợp cuối gồm 10 mục kèm nguồn từng mục, nằm ở [mục 8 của báo cáo đối chiếu](../plans/reports/prd-synthesis-260908-0254-world-class-prd-vs-verified-sources.md). Tóm tắt: thông tin chung và trạng thái; vấn đề và bối cảnh; mục tiêu và non-goals kèm lý do; nguyên tắc sản phẩm; chỉ số chính và chỉ số bảo vệ; giả định; yêu cầu có tiêu chí nghiệm thu, phân loại và xếp hạng; luồng chính và ma trận trạng thái biên; tiêu chí phát hành và tracking plan; kế hoạch ra mắt và rút lui; câu hỏi mở.
+Sau khi đối chiếu năm template với tài liệu gốc của Cagan và với một khung "PRD world-class" thiên kỹ thuật, khung tổng hợp cuối gồm 11 mục, đánh số 0 tới 10, kèm nguồn từng mục, nằm ở [mục 8 của báo cáo đối chiếu](../plans/reports/prd-synthesis-260908-0254-world-class-prd-vs-verified-sources.md). Tóm tắt: thông tin chung và trạng thái; vấn đề và bối cảnh; mục tiêu và non-goals kèm lý do; nguyên tắc sản phẩm; chỉ số chính và chỉ số bảo vệ; giả định; yêu cầu có tiêu chí nghiệm thu, phân loại và xếp hạng; luồng chính và ma trận trạng thái biên; tiêu chí phát hành và tracking plan; kế hoạch ra mắt và rút lui; câu hỏi mở.
 
 Bản template markdown gốc từ năm nguồn vẫn ở [mục 7 của báo cáo PRD](../plans/reports/researcher-260908-0238-prd-knowledge.md).
 
@@ -454,7 +454,7 @@ Ranh giới mà Pendo nêu rõ: AI **bổ trợ** chứ không thay thế vai tr
 
 **Tuần 3 tới 4, chẩn đoán chỗ đang hỏng.** Đọc Escaping the Build Trap, tên tiếng Việt là *Quản Lý Sản Phẩm Trong Thời Đại 4.0*. Chạy thử một vòng Product Kata cho một mục tiêu thật của bạn.
 
-**Tuần 5 tới 6, làm PRD cho tử tế.** Dựng lại một PRD cũ theo khung 10 mục ở mục 3.6. Bắt buộc viết đủ phần non-goals kèm lý do và success metrics có mốc hiện tại lẫn mốc mong muốn.
+**Tuần 5 tới 6, làm PRD cho tử tế.** Dựng lại một PRD cũ theo khung 11 mục ở mục 3.6. Bắt buộc viết đủ phần non-goals kèm lý do và success metrics có mốc hiện tại lẫn mốc mong muốn.
 
 **Tuần 7 tới 8, roadmap.** Đọc ebook roadmap miễn phí của ProductPlan. Chuyển roadmap hiện tại sang Now-Next-Later, mỗi dòng viết là một vấn đề chứ không phải tính năng. Chọn một khung ưu tiên và dùng nhất quán.
 
