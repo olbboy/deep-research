@@ -109,7 +109,7 @@ Chị Lan là PM ở một công ty phần mềm quản lý cửa hàng. Sáng t
 
 Chỉ sau đó mới đến bước 7, viết ra.
 
-### 8.2 Cấu trúc văn bản, 10 mục, ghi nguồn từng mục
+### 8.2 Cấu trúc văn bản, 11 mục đánh số 0 tới 10, ghi nguồn từng mục
 
 | # | Mục | Nội dung | Lấy từ |
 |---|---|---|---|
@@ -131,7 +131,7 @@ Trước khi duyệt, hỏi hai câu: kỹ sư đọc xong có đủ hiểu đí
 
 ### 8.4 Quy mô nào dùng bao nhiêu
 
-(Đề xuất của người viết, không nguồn nào quy định.) Tính năng nhỏ, một đội, dưới hai tuần: dùng mục 0, 1, 2, 4, 6, 10, tức one-pager. Tính năng liên đội hoặc có rủi ro hạ tầng: dùng đủ 10 mục. Sản phẩm mới: nguyên mẫu đã thử là bản chính, văn bản 10 mục là chú giải.
+(Đề xuất của người viết, không nguồn nào quy định.) Tính năng nhỏ, một đội, dưới hai tuần: dùng mục 0, 1, 2, 4, 6, 10, tức one-pager. Tính năng liên đội hoặc có rủi ro hạ tầng: dùng đủ 11 mục. Sản phẩm mới: nguyên mẫu đã thử là bản chính, văn bản 11 mục là chú giải.
 
 ## 9. Chỗ trống cần điền
 
